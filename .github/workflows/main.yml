@@ -1,0 +1,22 @@
+name: Build and Test Library
+
+on:
+  ###push:
+  ###  branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        MODE: ["OSXCore", "iOSCore", "tvOSCore", "watchOSCore"]
+        CFG: ["Debug", "Release"]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and Test
+      run:  Tests/xcode_tests.sh ${{ matrix.MODE }} ${{ matrix.CFG }}
